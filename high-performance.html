@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ceiling Is Yours to Move — Insights from Dr. Gio Valiante</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12151b;
+    --bg-alt: #1a1f28;
+    --bg-card: #1e2430;
+    --red: #e2472b;
+    --red-dim: #8a2c1c;
+    --gold: #c9a227;
+    --chalk: #f3efe6;
+    --muted: #8b94a3;
+    --line: rgba(243,239,230,0.12);
+    --line-strong: rgba(243,239,230,0.22);
+    --lane1: #e2472b;
+    --lane2: #c9a227;
+    --lane3: #5fa8a0;
+    --lane4: #8f7fd6;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--chalk);
+    font-family:'Fraunces', Georgia, serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--red); color:var(--chalk); }
+
+  a{ color:inherit; }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    font-size:0.72rem;
+    color:var(--muted);
+  }
+
+  h1,h2,h3{
+    font-family:'Bebas Neue', 'Fraunces', sans-serif;
+    letter-spacing:0.01em;
+    font-weight:400;
+    line-height:1.02;
+    margin:0;
+  }
+
+  /* ---------- Progress track (signature element) ---------- */
+  .track-rail{
+    position:fixed; top:0; left:0; right:0; height:5px;
+    background:var(--bg-alt);
+    z-index:200;
+    border-bottom:1px solid var(--line);
+  }
+  .track-fill{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    transition:width 0.08s linear;
+  }
+  .track-runner{
+    position:fixed; top:0px; left:0%;
+    width:14px; height:14px;
+    transform:translate(-50%, -30%);
+    z-index:201;
+    pointer-events:none;
+  }
+  .track-runner svg{ display:block; filter:drop-shadow(0 0 4px rgba(226,71,43,0.7)); }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky; top:5px; z-index:150;
+    background:rgba(18,21,27,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:14px 24px;
+    display:flex; align-items:center; gap:20px;
+    flex-wrap:wrap;
+  }
+  .nav-mark{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.15rem;
+    letter-spacing:0.03em;
+    color:var(--chalk);
+    white-space:nowrap;
+  }
+  .nav-mark span{ color:var(--red); }
+  .nav-lanes{ display:flex; gap:6px; flex-wrap:wrap; margin-left:auto; }
+  .nav-lanes button{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background:transparent;
+    border:1px solid var(--line-strong);
+    color:var(--muted);
+    padding:7px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .nav-lanes button:hover, .nav-lanes button:focus-visible{
+    color:var(--chalk);
+    border-color:var(--chalk);
+    outline:none;
+  }
+  .nav-lanes button.active{
+    background:var(--chalk);
+    color:var(--bg);
+    border-color:var(--chalk);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width:880px;
+    margin:0 auto;
+    padding:96px 24px 64px;
+  }
+  .hero .eyebrow{ margin-bottom:18px; display:block; }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    color:var(--chalk);
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--red);
+  }
+  .hero-sub{
+    max-width:620px;
+    margin-top:24px;
+    color:var(--muted);
+    font-size:1.05rem;
+  }
+  .hero-source{
+    margin-top:36px;
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+    border-left:2px solid var(--red);
+    padding-left:14px;
+  }
+
+  .governor-line{
+    max-width:880px;
+    margin:0 auto 80px;
+    padding:0 24px;
+  }
+  .governor-quote{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:34px 0;
+    font-size:clamp(1.3rem, 3vw, 1.9rem);
+    font-style:italic;
+    color:var(--chalk);
+  }
+  .governor-quote span{ color:var(--gold); font-style:normal; }
+  .governor-attrib{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-top:10px;
+    display:block;
+  }
+
+  /* ---------- Lanes ---------- */
+  .lane{
+    max-width:1080px;
+    margin:0 auto;
+    padding:60px 24px 20px;
+    scroll-margin-top:80px;
+  }
+  .lane-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .lane-num{
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    color:var(--lane-color, var(--red));
+    border:1px solid var(--lane-color, var(--red));
+    border-radius:50%;
+    width:34px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .lane-title{
+    font-size:clamp(1.7rem, 4vw, 2.6rem);
+    color:var(--chalk);
+  }
+  .lane-desc{
+    color:var(--muted);
+    max-width:620px;
+    margin:6px 0 32px 50px;
+    font-size:0.98rem;
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:16px;
+  }
+  .card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-left:3px solid var(--lane-color, var(--red));
+    border-radius:6px;
+    padding:22px 22px 20px;
+    transition:transform 0.15s ease, border-color 0.15s ease;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:var(--line-strong);
+    border-left-color:var(--lane-color, var(--red));
+  }
+  .card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:normal;
+    font-size:1.15rem;
+    color:var(--chalk);
+    margin-bottom:10px;
+    line-height:1.25;
+  }
+  .card p{
+    margin:0 0 12px;
+    color:#c7cbd4;
+    font-size:0.94rem;
+  }
+  .card .apply{
+    font-family:'Space Mono', monospace;
+    font-size:0.74rem;
+    color:var(--lane-color, var(--gold));
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    margin-bottom:6px;
+  }
+  .card .apply-text{
+    font-family:'Fraunces', serif;
+    font-size:0.92rem;
+    color:var(--chalk);
+    font-style:italic;
+    margin:0;
+  }
+
+  /* ---------- Interactive: One Habit tool ---------- */
+  .tool{
+    max-width:1080px;
+    margin:70px auto;
+    padding:0 24px;
+  }
+  .tool-box{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:36px;
+  }
+  .tool-box h2{
+    font-size:clamp(1.5rem, 3vw, 2rem);
+    margin-bottom:8px;
+    color:var(--chalk);
+  }
+  .tool-box .eyebrow{ margin-bottom:12px; }
+  .tool-sub{ color:var(--muted); margin-bottom:24px; max-width:560px; font-size:0.95rem;}
+  .habit-options{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px;
+  }
+  .habit-options button{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    background:var(--bg-card);
+    border:1px solid var(--line-strong);
+    color:var(--chalk);
+    padding:10px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .habit-options button:hover, .habit-options button:focus-visible{
+    border-color:var(--red);
+    color:var(--red);
+    outline:none;
+  }
+  .habit-options button.picked{
+    background:var(--red);
+    border-color:var(--red);
+    color:var(--chalk);
+  }
+  .habit-output{
+    border-top:1px solid var(--line);
+    padding-top:20px;
+    min-height:70px;
+    display:none;
+  }
+  .habit-output.show{ display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+  .habit-output .label{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .habit-output p{ margin:0; font-size:1.02rem; color:var(--chalk); }
+
+  /* ---------- Interactive: Small wins log ---------- */
+  .wins-box{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:36px;
+    margin-top:24px;
+  }
+  .wins-box h2{ font-size:clamp(1.5rem, 3vw, 2rem); margin-bottom:8px; color:var(--chalk); }
+  .wins-form{
+    display:flex; gap:10px; margin:22px 0 20px;
+    flex-wrap:wrap;
+  }
+  .wins-form input{
+    flex:1; min-width:220px;
+    background:var(--bg-card);
+    border:1px solid var(--line-strong);
+    color:var(--chalk);
+    padding:12px 14px;
+    border-radius:6px;
+    font-family:'Fraunces', serif;
+    font-size:0.95rem;
+  }
+  .wins-form input::placeholder{ color:var(--muted); }
+  .wins-form input:focus-visible{ outline:2px solid var(--red); outline-offset:1px; }
+  .wins-form button{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    background:var(--red);
+    border:1px solid var(--red);
+    color:var(--chalk);
+    padding:12px 20px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+  .wins-form button:hover{ background:#c73a21; }
+  .wins-tally{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .wins-tally strong{ color:var(--gold); font-size:1rem; }
+  .wins-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .wins-list li{
+    background:var(--bg-card);
+    border-left:3px solid var(--gold);
+    border-radius:4px;
+    padding:10px 14px;
+    font-size:0.92rem;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+  }
+  .wins-list li .stamp{
+    font-family:'Space Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .wins-empty{ color:var(--muted); font-size:0.88rem; font-style:italic; }
+  .wins-note{
+    font-family:'Space Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    margin-top:18px;
+  }
+
+  /* ---------- Closing: race bib checklist ---------- */
+  .bib{
+    max-width:780px;
+    margin:80px auto 40px;
+    padding:0 24px;
+  }
+  .bib-head{ text-align:center; margin-bottom:32px; }
+  .bib-head .eyebrow{ justify-content:center; display:flex; margin-bottom:10px; }
+  .bib-head h2{ font-size:clamp(1.8rem, 4vw, 2.6rem); }
+  .bib-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px;
+  }
+  .bib-item{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .bib-item:last-child{ border-bottom:none; }
+  .bib-check{
+    flex-shrink:0;
+    width:22px; height:22px;
+    border:1px solid var(--line-strong);
+    border-radius:50%;
+    margin-top:2px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.15s ease;
+  }
+  .bib-item.done .bib-check{ background:var(--gold); border-color:var(--gold); }
+  .bib-check svg{ opacity:0; transition:opacity 0.15s ease; }
+  .bib-item.done .bib-check svg{ opacity:1; }
+  .bib-text{ font-size:0.98rem; color:var(--chalk); }
+  .bib-item.done .bib-text{ color:var(--muted); text-decoration:line-through; text-decoration-color:var(--line-strong); }
+  .bib-num{ font-family:'Space Mono', monospace; color:var(--muted); font-size:0.75rem; margin-right:4px; }
+
+  footer{
+    max-width:1080px;
+    margin:0 auto;
+    padding:60px 24px 100px;
+    color:var(--muted);
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:600px){
+    .lane-desc{ margin-left:0; }
+    nav{ padding:12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="track-rail"><div class="track-fill" id="trackFill"></div></div>
+<div class="track-runner" id="trackRunner">
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+    <circle cx="12" cy="12" r="10" fill="#F3EFE6" stroke="#e2472b" stroke-width="2"/>
+  </svg>
+</div>
+
+<nav>
+  <div class="nav-mark">CENTRAL <span>GOVERNOR</span></div>
+  <div class="nav-lanes" id="navLanes">
+    <button data-target="lane1">Mind</button>
+    <button data-target="lane2">Systems</button>
+    <button data-target="lane3">Confidence</button>
+    <button data-target="lane4">Teams &amp; Identity</button>
+    <button data-target="tools">Tools</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">Field notes — Dr. Gio Valiante on high performance</span>
+  <h1>Your brain is built to keep you <em>safe</em>, not to make you <em>great</em>.</h1>
+  <p class="hero-sub">Underperformance is the default setting of every human being — a survival mechanism, not a character flaw. Excellence only happens when someone makes a conscious decision to override it, then builds the habits, environment, and self-talk that make overriding it automatic. This page pulls the operating principles out of the conversation and turns them into things you can actually use this week.</p>
+  <div class="hero-source">Source: podcast conversation with performance psychologist Dr. Gio Valiante, on the central governor hypothesis, mastery motivation, confidence, and identity.</div>
+</header>
+
+<div class="governor-line">
+  <div class="governor-quote">
+    If you go through life overindexing and caring too much what people think about you, <span>that's your ceiling.</span>
+  </div>
+  <span class="governor-attrib">Dr. Gio Valiante</span>
+</div>
+
+<!-- LANE 1 -->
+<section class="lane" id="lane1" style="--lane-color:var(--lane1)">
+  <div class="lane-head">
+    <div class="lane-num">01</div>
+    <h2 class="lane-title">Mind over instinct</h2>
+  </div>
+  <p class="lane-desc">The brain defaults to comfort, safety, and energy conservation. These four ideas are about catching that default in the act and overriding it on purpose.</p>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Discomfort isn't a wrong turn</h3>
+      <p>The central governor hypothesis: your brain's job is to keep you alive long enough to reproduce, not to help you overperform. Comfort-seeking is the factory setting.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Ask yourself: "Am I choosing comfort today, or growth?" Before opting out of something hard, name which one you're picking.</p>
+    </div>
+    <div class="card">
+      <h3>Action changes thinking, not the reverse</h3>
+      <p>"We don't think our way into a pattern of living, we live our way into a pattern of thought." Behavior is a cause of behavior — the more you do a thing, the more likely you are to keep doing it.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Stop waiting to feel motivated. Replace "I'll write when inspired" with "I'll write every day," and let confidence show up after the doing.</p>
+    </div>
+    <div class="card">
+      <h3>Self-talk becomes identity</h3>
+      <p>The words you repeat blend with cognition over time and turn into belief — this is the same mechanism behind prayer and affirmation, whether or not you buy into either.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Swap "I always fail" for "I haven't mastered it yet." Not delusion — a more accurate, less punishing interpretation of the same facts.</p>
+    </div>
+    <div class="card">
+      <h3>Anxiety lives in the imagined future</h3>
+      <p>Forethought is a uniquely human gift, and its dark side is the "what if" spiral — what if I fail, what if they reject me, what if I lose it all. Most of these scenarios never happen.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">When you catch a "what if," name it out loud, then bring your attention back to the one task in front of you today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LANE 2 -->
+<section class="lane" id="lane2" style="--lane-color:var(--lane2)">
+  <div class="lane-head">
+    <div class="lane-num">02</div>
+    <h2 class="lane-title">Systems over goals</h2>
+  </div>
+  <p class="lane-desc">"We don't rise to the level of our goals, we shrink to the level of our systems." Environment and repetition do more work than willpower ever will.</p>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Excellence is boring</h3>
+      <p>Writers write daily. Athletes train daily. There's no magic moment — just "the everydayness of excellence." Consistency beats intensity every time.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Pick the one recurring action that defines the skill you're building, and protect it as non-negotiable — even a bad version of it, on bad days.</p>
+    </div>
+    <div class="card">
+      <h3>Environment shapes you more than goals do</h3>
+      <p>Situated cognition: the brain interacts with its environment mostly on an unconscious level. If you want to become someone else, change your environment before you change your mind.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Audit one input this week — who you talk to, what you read, where you work — and change the one most misaligned with who you're trying to become.</p>
+    </div>
+    <div class="card">
+      <h3>Systems create identity, goals just inspire</h3>
+      <p>"I want to become an AI product manager" is a wish. Reading daily, shipping monthly, publishing weekly, and reflecting weekly is a system — and systems are what you actually become.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Rewrite your current goal as a weekly cadence of concrete actions instead of an outcome to hope for.</p>
+    </div>
+    <div class="card">
+      <h3>Find the one habit holding you back</h3>
+      <p>Don't try to fix everything. Identify a single comfortable habit — doomscrolling, procrastination, a ready-made excuse — and replace only that one.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Use the tool below to name yours and get one concrete substitute action.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LANE 3 -->
+<section class="lane" id="lane3" style="--lane-color:var(--lane3)">
+  <div class="lane-head">
+    <div class="lane-num">03</div>
+    <h2 class="lane-title">Confidence &amp; momentum</h2>
+  </div>
+  <p class="lane-desc">Confidence is not a personality trait — it's built and it can be measured. Protect it the way you'd protect capital.</p>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Confidence has four sources</h3>
+      <p>Mastery experience (your own track record), verbal persuasion (what others tell you), vicarious experience (how you compare to others), and physiological state (how your body reads its own nerves).</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Notice which of the four you weight too heavily — usually it's comparison or criticism — and consciously index toward mastery experience instead.</p>
+    </div>
+    <div class="card">
+      <h3>Fear distorts perception</h3>
+      <p>A confident person looks at the world and sees abundance and opportunity. A fearful person sees threat and landmines everywhere — same world, different lens.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">When a setback makes everything feel dangerous, ask: is this the situation, or is this fear narrating the situation?</p>
+    </div>
+    <div class="card">
+      <h3>Small wins rebuild confidence fastest</h3>
+      <p>When you're in a slump, don't chase one big recovery — that's how panic and overcorrection happen. Get in the habit of making money, finishing a page, shipping a feature — in small amounts, repeatedly.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Log one small win below today. Momentum compounds — it doesn't arrive fully formed.</p>
+    </div>
+    <div class="card">
+      <h3>Only compare today's you to yesterday's you</h3>
+      <p>Research shows the difference within one person over time is usually bigger than the difference between two different people. Comparison to others mostly just erodes confidence.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Next time you catch yourself benchmarking against someone else, redirect the comparison to your own progress last month.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LANE 4 -->
+<section class="lane" id="lane4" style="--lane-color:var(--lane4)">
+  <div class="lane-head">
+    <div class="lane-num">04</div>
+    <h2 class="lane-title">Teams, mistakes &amp; identity</h2>
+  </div>
+  <p class="lane-desc">Why some people burn out chasing status while others stay in the game for decades — and why the hardest work is often about the past, not the future.</p>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Mastery motivation outlasts ego motivation</h3>
+      <p>People who do the work for status, money, or recognition tend to burn out. People who love the craft itself protect that purity and stay in long enough to become exceptional.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Ask honestly: am I drawn to this work, or to what it might get me? Both can coexist, but one has to be primary.</p>
+    </div>
+    <div class="card">
+      <h3>Great teams solve hard problems together</h3>
+      <p>Distilled to one sentence: the job is to get good at solving hard problems together. That requires humility and truth-telling — ego is what wrecks it.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">In your next disagreement at work, notice the moment you're defending being right instead of solving the actual problem.</p>
+    </div>
+    <div class="card">
+      <h3>Mistakes are data, not verdicts</h3>
+      <p>Talent grows fastest in environments where mistakes aren't punished excessively. Ask "what can this teach us" instead of "who did this."</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">After your next mistake, write down what it taught you before you write down how it made you feel.</p>
+    </div>
+    <div class="card">
+      <h3>We spend adulthood undoing childhood debris</h3>
+      <p>Much of adult drive — for money, achievement, approval — traces back to something unresolved from youth. Success alone doesn't heal it; self-awareness does.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">If a particular win never feels like enough, ask what younger version of you is still trying to be validated by it.</p>
+    </div>
+    <div class="card">
+      <h3>Identity is discovered, not assigned</h3>
+      <p>"We try on different faces until we find a face of our own." Neither poverty nor inherited wealth does this work for you — only deliberate self-discovery does.</p>
+      <div class="apply">Try this</div>
+      <p class="apply-text">Notice which parts of your current path you chose, and which you're still performing for someone else's approval.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tool" id="tools">
+  <div class="tool-box">
+    <span class="eyebrow">Interactive — pick one</span>
+    <h2>Name your one comfortable habit</h2>
+    <p class="tool-sub">You don't need to fix everything. Pick the habit that's quietly running the show, and get one concrete substitute to try today.</p>
+    <div class="habit-options" id="habitOptions">
+      <button data-habit="scrolling">Doomscrolling</button>
+      <button data-habit="procrastination">Procrastination</button>
+      <button data-habit="excuses">Ready-made excuses</button>
+      <button data-habit="food">Junk food / comfort eating</button>
+      <button data-habit="avoidance">Avoiding hard conversations</button>
+    </div>
+    <div class="habit-output" id="habitOutput">
+      <div class="label">Try this instead</div>
+      <p id="habitText"></p>
+    </div>
+  </div>
+
+  <div class="wins-box">
+    <span class="eyebrow">Interactive — stack momentum</span>
+    <h2>Log today's small win</h2>
+    <p class="tool-sub">One finished page, one shipped feature, one hard conversation had. Confidence is built from mastery experience — this is where it starts.</p>
+    <form class="wins-form" id="winsForm">
+      <input type="text" id="winInput" placeholder="What's one small thing you got done today?" maxlength="140" required>
+      <button type="submit">Log it</button>
+    </form>
+    <div class="wins-tally" id="winsTally">No wins logged yet this session.</div>
+    <ul class="wins-list" id="winsList"></ul>
+    <div class="wins-note">Wins are kept for this session only and clear on reload — a habit tracker, not a database.</div>
+  </div>
+</section>
+
+<!-- BIB CHECKLIST -->
+<section class="bib">
+  <div class="bib-head">
+    <span class="eyebrow">The condensed version</span>
+    <h2>Ten principles worth pinning up</h2>
+  </div>
+  <div class="bib-card" id="bibCard">
+    <!-- items injected by JS -->
+  </div>
+</section>
+
+<footer>
+  Built from a conversation on performance psychology with Dr. Gio Valiante · Central governor hypothesis, mastery motivation, confidence, systems, and identity
+</footer>
+
+<script>
+  // ---------- Track progress bar ----------
+  const trackFill = document.getElementById('trackFill');
+  const trackRunner = document.getElementById('trackRunner');
+  function updateTrack(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    const pct = height > 0 ? (scrolled / height) * 100 : 0;
+    trackFill.style.width = pct + '%';
+    trackRunner.style.left = pct + '%';
+  }
+  document.addEventListener('scroll', updateTrack, { passive:true });
+  window.addEventListener('resize', updateTrack);
+  updateTrack();
+
+  // ---------- Nav lane highlighting + scroll ----------
+  const navButtons = document.querySelectorAll('.nav-lanes button');
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      if(target){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+  const sections = ['lane1','lane2','lane3','lane4','tools'].map(id => document.getElementById(id));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        navButtons.forEach(b => b.classList.toggle('active', b.dataset.target === entry.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(s => s && observer.observe(s));
+
+  // ---------- One habit tool ----------
+  const habitData = {
+    scrolling: "Set your phone to grayscale before your first work block, and put it in another room. The pull is mostly visual — remove the color, remove a lot of the pull.",
+    procrastination: "Don't aim to finish the task. Aim to work on it badly for ten minutes. Dr. Valiante's line for writers applies here too: stay in your seat and do it badly — you write your way through the bad days to the good ones.",
+    excuses: "Before you say the excuse out loud today, write it down first. Seeing your go-to reason on paper makes it much harder to hide behind.",
+    food: "Add one five-minute walk before the moment you usually reach for comfort food — not as a punishment, just as a pause that lets you choose on purpose.",
+    avoidance: "Book the conversation for a specific time in the next 48 hours. A vague intention to \"deal with it eventually\" is how avoidance wins by default."
+  };
+  const habitButtons = document.querySelectorAll('#habitOptions button');
+  const habitOutput = document.getElementById('habitOutput');
+  const habitText = document.getElementById('habitText');
+  habitButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      habitButtons.forEach(b => b.classList.remove('picked'));
+      btn.classList.add('picked');
+      habitText.textContent = habitData[btn.dataset.habit];
+      habitOutput.classList.add('show');
+    });
+  });
+
+  // ---------- Small wins logger (session only, no storage) ----------
+  const winsForm = document.getElementById('winsForm');
+  const winInput = document.getElementById('winInput');
+  const winsList = document.getElementById('winsList');
+  const winsTally = document.getElementById('winsTally');
+  let wins = [];
+
+  function renderWins(){
+    winsList.innerHTML = '';
+    if(wins.length === 0){
+      winsTally.textContent = 'No wins logged yet this session.';
+      return;
+    }
+    winsTally.innerHTML = '<strong>' + wins.length + '</strong> small win' + (wins.length === 1 ? '' : 's') + ' stacked this session';
+    wins.slice().reverse().forEach(w => {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = w.text;
+      const stamp = document.createElement('span');
+      stamp.className = 'stamp';
+      stamp.textContent = w.time;
+      li.appendChild(span);
+      li.appendChild(stamp);
+      winsList.appendChild(li);
+    });
+  }
+
+  winsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = winInput.value.trim();
+    if(!val) return;
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    wins.push({ text: val, time: time });
+    winInput.value = '';
+    renderWins();
+  });
+  renderWins();
+
+  // ---------- Bib checklist ----------
+  const bibItems = [
+    "Growth lives outside comfort.",
+    "Action changes identity — behavior first, belief follows.",
+    "Consistency beats motivation.",
+    "Love the craft more than the reward.",
+    "Be fully present — presence is trainable.",
+    "Design environments that support excellence.",
+    "Build confidence through small wins, not big swings.",
+    "Protect your mindset from fear and comparison.",
+    "Solve hard problems with good people, not around them.",
+    "Focus on becoming your best self, not a better version of someone else."
+  ];
+  const bibCard = document.getElementById('bibCard');
+  bibItems.forEach((text, i) => {
+    const item = document.createElement('div');
+    item.className = 'bib-item';
+    item.setAttribute('role','checkbox');
+    item.setAttribute('aria-checked','false');
+    item.setAttribute('tabindex','0');
+    item.innerHTML =
+      '<span class="bib-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke="#12151b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span class="bib-text"><span class="bib-num">' + String(i+1).padStart(2,'0') + '</span>' + text + '</span>';
+    function toggle(){
+      const done = item.classList.toggle('done');
+      item.setAttribute('aria-checked', done ? 'true' : 'false');
+    }
+    item.addEventListener('click', toggle);
+    item.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+    });
+    bibCard.appendChild(item);
+  });
+</script>
+
+</body>
+</html>
