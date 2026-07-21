@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Notes — Bill Gurley on Mental Models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#11141b;
+    --panel:#1a1f2b;
+    --panel-2:#20273578;
+    --card:#1c2230;
+    --card-border:#2c3446;
+    --ivory:#eae4d4;
+    --ivory-dim:#a6a89a;
+    --muted:#7d8496;
+    --brass:#c8a24d;
+    --brass-dim:#8f7638;
+    --teal:#6fa39a;
+    --rust:#a56655;
+    --hair:rgba(234,228,212,0.09);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--ivory);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--brass);color:#11141b;}
+
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:5.5rem 6vw 3.5rem;
+    border-bottom:1px solid var(--hair);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-40%; right:-10%;
+    width:520px; height:520px;
+    background:radial-gradient(circle, rgba(200,162,77,0.10) 0%, rgba(200,162,77,0) 70%);
+    pointer-events:none;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:1.4rem;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+  .kicker::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--brass);
+    display:inline-block;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(2.1rem, 4.4vw, 3.6rem);
+    line-height:1.08;
+    margin:0 0 1.4rem;
+    max-width:16ch;
+    letter-spacing:-0.01em;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--brass);
+  }
+  .hero-sub{
+    max-width:56ch;
+    color:var(--ivory-dim);
+    font-size:1.02rem;
+    line-height:1.65;
+    margin:0 0 2.2rem;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2.4rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+  }
+  .hero-meta div span{
+    display:block;
+    color:var(--ivory);
+    font-size:0.95rem;
+    margin-top:0.25rem;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:0;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  @media (max-width:860px){
+    .wrap{grid-template-columns:1fr;}
+  }
+
+  /* ---------- LEDGER NAV ---------- */
+  .ledger{
+    position:sticky;
+    top:0;
+    align-self:start;
+    padding:3rem 1.4rem 3rem 6vw;
+    max-height:100vh;
+    overflow-y:auto;
+  }
+  @media (max-width:860px){
+    .ledger{
+      position:static;
+      max-height:none;
+      padding:2rem 6vw 0.5rem;
+      display:flex;
+      gap:0.5rem;
+      overflow-x:auto;
+      overflow-y:visible;
+    }
+  }
+  .ledger-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 1rem;
+  }
+  @media (max-width:860px){ .ledger-title{display:none;} }
+  .ledger-item{
+    display:flex;
+    align-items:baseline;
+    gap:0.7rem;
+    padding:0.62rem 0.5rem;
+    border-radius:4px;
+    cursor:pointer;
+    color:var(--ivory-dim);
+    transition:color .15s ease, background .15s ease;
+    font-size:0.86rem;
+    line-height:1.3;
+    white-space:nowrap;
+  }
+  @media (max-width:860px){
+    .ledger-item{
+      flex-direction:column;
+      gap:0.15rem;
+      white-space:normal;
+      min-width:108px;
+      border:1px solid var(--card-border);
+      padding:0.55rem 0.6rem;
+    }
+  }
+  .ledger-item .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--brass-dim);
+    font-size:0.78rem;
+  }
+  .ledger-item:hover{ color:var(--ivory); background:var(--panel-2); }
+  .ledger-item.active{ color:var(--ivory); }
+  .ledger-item.active .num{ color:var(--brass); }
+  .ledger-item.active{ background:var(--panel-2); }
+
+  /* ---------- MAIN ---------- */
+  main{
+    padding:3rem 6vw 6rem 2.5rem;
+    border-left:1px solid var(--hair);
+  }
+  @media (max-width:860px){
+    main{border-left:none; padding:2rem 6vw 5rem;}
+  }
+
+  .card{
+    scroll-margin-top:1.5rem;
+    border-top:1px solid var(--hair);
+    padding:3rem 0;
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:1.6rem;
+  }
+  .card:first-child{border-top:none; padding-top:0.5rem;}
+  @media (max-width:640px){
+    .card{grid-template-columns:1fr; gap:0.9rem;}
+  }
+
+  .card-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.8rem;
+    color:var(--card-border);
+    font-weight:500;
+  }
+
+  .tag-row{
+    display:flex;
+    align-items:center;
+    gap:0.7rem;
+    margin-bottom:0.8rem;
+    flex-wrap:wrap;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0.22rem 0.55rem;
+    border-radius:3px;
+    border:1px solid;
+  }
+  .tag.systems{ color:var(--teal); border-color:rgba(111,163,154,0.4); }
+  .tag.people{ color:var(--rust); border-color:rgba(165,102,85,0.4); }
+  .tag.money{ color:var(--brass); border-color:rgba(200,162,77,0.4); }
+
+  .timecode{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+  }
+
+  h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.5rem;
+    line-height:1.25;
+    margin:0 0 0.9rem;
+    color:var(--ivory);
+  }
+  .card p{
+    font-size:0.98rem;
+    line-height:1.7;
+    color:var(--ivory-dim);
+    margin:0 0 0.9rem;
+  }
+  .card p:last-of-type{margin-bottom:0;}
+
+  .apply{
+    margin-top:1.3rem;
+    padding:1rem 1.2rem;
+    border-left:2px solid var(--brass);
+    background:var(--panel-2);
+    border-radius:0 4px 4px 0;
+  }
+  .apply-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:0.4rem;
+    display:block;
+  }
+  .apply p{
+    color:var(--ivory);
+    font-size:0.92rem;
+    margin:0;
+    line-height:1.6;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--hair);
+    padding:2.4rem 6vw 3rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:0.8rem;
+    max-width:1180px;
+    margin:0 auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kicker">Field Notes · The Knowledge Project</div>
+  <h1>Nine models for thinking like a <em>system</em>, not a headline</h1>
+  <p class="hero-sub">Bill Gurley spent a career underwriting winner-take-all bets at Benchmark. This is a working ledger of the frameworks he uses to reason about complexity, founders, and money — rewritten as things you can actually apply this week.</p>
+  <div class="hero-meta">
+    <div>Source<span>The Knowledge Project — Bill Gurley</span></div>
+    <div>Runtime<span>≈ 61 min</span></div>
+    <div>Extracted<span>9 mental models</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="ledger" id="ledger">
+    <div class="ledger-title">Index</div>
+    <!-- items injected by JS -->
+  </nav>
+
+  <main id="main">
+
+    <section class="card" data-id="1">
+      <div class="card-num">01</div>
+      <div>
+        <div class="tag-row"><span class="tag systems">Systems</span><span class="timecode">0:00–1:51</span></div>
+        <h2>A metric can win locally and lose the whole system</h2>
+        <p>Gurley's home base is systems thinking: most things worth reasoning about are multivariable and nonlinear, so a single lever can move an outcome in one direction now and a different direction later. His example is a dating app that lengthened profiles, watched engagement rise, rolled it out — and only many months later discovered it was quietly dragging down conversion once people learned too much about a match upfront.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Before you ship a change on the strength of one metric, name the second-order metric it could be trading against, and set a date to actually check it — not just the day the first number moves.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="2">
+      <div class="card-num">02</div>
+      <div>
+        <div class="tag-row"><span class="tag people">Depth</span><span class="timecode">5:21–8:47</span></div>
+        <h2>Knowing your field's history is a cheap, rare advantage</h2>
+        <p>Gurley built his own foundation by reading everything from Peter Lynch to Ben Graham to Howard Marks before he ever adapted those ideas to venture investing. He argues most people in most professions never study the history of their own craft, which is exactly why doing so stands out — his litmus test is that if going deep on the classics of your field feels tedious rather than energizing, you're probably in the wrong field.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Pick one foundational body of work in your discipline — not the newest post, the actual canon — and go deep enough that you could teach it. Let it show up naturally the next time you're being evaluated.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="3">
+      <div class="card-num">03</div>
+      <div>
+        <div class="tag-row"><span class="tag systems">Learning</span><span class="timecode">8:55–11:43</span></div>
+        <h2>Depth in the classics, obsession with the edge — hold both</h2>
+        <p>The trait Gurley sees most consistently in great founders isn't historical knowledge, it's obsessive real-time learning: going home every night to read everything on whatever frontier is currently moving, because that's where disruption comes from. He treats this as a personal discipline too — he keeps several premium AI subscriptions running simultaneously simply so nothing on the edge slips past him.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Run two learning tracks in parallel: a slow one for the bedrock of your field, and a fast one where you deliberately try every new tool or technique the week it appears, even if most of them go nowhere.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="4">
+      <div class="card-num">04</div>
+      <div>
+        <div class="tag-row"><span class="tag people">Founders</span><span class="timecode">45:04–50:08</span></div>
+        <h2>The founder traits that actually predict outcomes</h2>
+        <p>Asked what separates founders who make it, Gurley lands on storytelling, obsessive learning, product instinct, and sheer determination. Product instinct is the rarest — in his experience only a small fraction of people are naturally product-first thinkers, no matter how experienced they are. Storytelling matters because founders are constantly selling: to recruits, investors, customers, and partners, all at once, all the time.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Audit your own pitch, whether it's a product spec or a case study, for whether a stranger could retell it in one sentence. If they can't, the storytelling — not the substance — is the gap.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="5">
+      <div class="card-num">05</div>
+      <div>
+        <div class="tag-row"><span class="tag people">Craft</span><span class="timecode">45:11–47:56</span></div>
+        <h2>Writing in public is a thinking tool disguised as a calling card</h2>
+        <p>Gurley traces his own habit of writing publicly back to studying narrative nonfiction and to seeing Jeff Bezos's six-page memo culture at Amazon — the theory being that forcing an idea into cohesive prose exposes the loose ends in your thinking that a bullet list lets you hide. As a side effect, that public writing became the thing founders found before they ever met him, turning his knowledge base into inbound deal flow.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Next time you think you understand a decision, write the standalone memo version before the meeting — not slides. If it doesn't hang together on the page, it isn't ready to be said out loud either.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="6">
+      <div class="card-num">06</div>
+      <div>
+        <div class="tag-row"><span class="tag money">Org design</span><span class="timecode">52:13–56:42</span></div>
+        <h2>An equal partnership removes politics — and removes ownership</h2>
+        <p>Benchmark's founders deliberately built an equal partnership with no lead partner and no hierarchy, which Gurley credits with making mentorship genuine — a junior partner's win is structurally your win too — and with removing the annual comp fight entirely. The tradeoff shows up whenever something needs a single owner and there's no CEO to assign it: the firm's website famously stayed a single splash page for over a decade because no one had unilateral authority to build more.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>When you flatten a structure to kill politics, decide in advance who owns the un-glamorous shared responsibilities — or expect them to stay undone, sometimes for years.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="7">
+      <div class="card-num">07</div>
+      <div>
+        <div class="tag-row"><span class="tag money">AI &amp; capital</span><span class="timecode">27:03–29:39</span></div>
+        <h2>Circular AI deals don't just inflate growth — they pull it forward</h2>
+        <p>Gurley walks through the mechanics behind "circular" AI infrastructure deals: a cloud provider funds a lab's compute spend, the lab spends it back on that provider's services, and both sides book growth that wouldn't exist without the funding loop. His read is that this doesn't just flatter the numbers, it also raises the odds of an eventual correction while simultaneously pushing the timing of that correction further out.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>When you evaluate any fast-growing number — usage, revenue, adoption — ask whether the growth is funding itself or being funded by an interested party. The distinction changes how durable it actually is.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="8">
+      <div class="card-num">08</div>
+      <div>
+        <div class="tag-row"><span class="tag money">Payments</span><span class="timecode">33:54–39:55</span></div>
+        <h2>Card fees are a regulatory artifact, not a law of nature</h2>
+        <p>Gurley points out that the UK, China, India, and Argentina all built instant, near-free bank-to-bank transfer rails years ago, while the US still leans on multi-day ACH settlement — a gap he attributes to sustained lobbying resistance from the banks that profit from the status quo. Because dollar-backed stablecoins run on already-proven crypto rails, he expects them to close that gap faster than US regulation will, putting real pressure on the 2-3% economics that Visa and Mastercard have enjoyed for decades.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>When a cost in your industry has stayed fixed for decades, check whether it's protected by real complexity or just by an incumbent with a lobbying budget — those get disrupted on very different timelines.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-id="9">
+      <div class="card-num">09</div>
+      <div>
+        <div class="tag-row"><span class="tag systems">Success</span><span class="timecode">59:47–1:01:08</span></div>
+        <h2>Success is finishing the chapter, not staying in it</h2>
+        <p>Gurley describes deliberately stepping back from venture investing only once he genuinely felt there was no more work left for him to do there — not from burnout, but from completion. He's now trying to redeploy the same underlying skill, synthesizing hard problems into clear writing, toward broader questions, treating career success less as a single peak and more as a sequence of chapters worth finishing on purpose.</p>
+        <div class="apply">
+          <span class="apply-label">Apply it</span>
+          <p>Instead of asking "should I quit this," ask "is there still real work left for me here." It's a more honest test, and it points to when a deliberate transition beats drifting.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>Field notes synthesized for personal use — not a transcript reproduction.</span>
+  <span>9 / 9 models</span>
+</footer>
+
+<script>
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const ledger = document.getElementById('ledger');
+
+  const titles = cards.map(c => c.querySelector('h2').textContent);
+
+  cards.forEach((card, i) => {
+    const item = document.createElement('div');
+    item.className = 'ledger-item';
+    item.dataset.id = card.dataset.id;
+    item.innerHTML = `<span class="num">${String(i+1).padStart(2,'0')}</span><span>${titles[i]}</span>`;
+    item.addEventListener('click', () => {
+      card.scrollIntoView({behavior:'smooth', block: window.innerWidth <= 860 ? 'center' : 'start'});
+    });
+    ledger.appendChild(item);
+  });
+
+  const ledgerItems = Array.from(document.querySelectorAll('.ledger-item'));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.dataset.id;
+      const item = ledgerItems.find(li => li.dataset.id === id);
+      if(!item) return;
+      if(entry.isIntersecting){
+        ledgerItems.forEach(li => li.classList.remove('active'));
+        item.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  cards.forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
