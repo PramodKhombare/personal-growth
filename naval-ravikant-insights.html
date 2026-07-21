@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rational Buddhist — Notes from Naval Ravikant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #14171c;
+    --ink-soft: #1d2129;
+    --ink-line: #30353f;
+    --paper: #f1e9d8;
+    --paper-dim: #e6dcc4;
+    --paper-line: #d8cba9;
+    --brass: #b8863f;
+    --brass-bright: #d9a857;
+    --text-on-ink: #ede7d9;
+    --text-muted: #a79c86;
+    --text-ink-body: #3a3226;
+    --text-ink-muted: #7a6f57;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at 20% -10%, #23283280 0%, transparent 60%),
+      var(--ink);
+    color:var(--text-on-ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:48px 24px 90px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--ink-line);
+    padding-bottom:28px;
+    margin-bottom:8px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass-bright);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.05;
+    margin:0 0 10px;
+    color:var(--text-on-ink);
+    max-width:560px;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--brass-bright);
+    font-weight:500;
+  }
+  .subhead{
+    color:var(--text-muted);
+    font-size:14.5px;
+    line-height:1.6;
+    max-width:460px;
+  }
+
+  .skim-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.04em;
+    background:var(--brass);
+    color:#1a1508;
+    border:none;
+    padding:13px 20px;
+    border-radius:3px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s ease, transform .1s ease;
+    flex-shrink:0;
+  }
+  .skim-btn:hover{background:var(--brass-bright);}
+  .skim-btn:active{transform:translateY(1px);}
+
+  /* ---------- SOURCE NOTE ---------- */
+  .source-note{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin:18px 0 34px;
+    line-height:1.6;
+    font-style:italic;
+  }
+
+  /* ---------- TOC / TABS ---------- */
+  nav.toc{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:36px;
+  }
+  .tab{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.03em;
+    padding:9px 15px;
+    border-radius:20px;
+    border:1px solid var(--ink-line);
+    color:var(--text-muted);
+    background:transparent;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab:hover{border-color:var(--brass); color:var(--text-on-ink);}
+  .tab.active{
+    background:var(--brass);
+    border-color:var(--brass);
+    color:#1a1508;
+    font-weight:500;
+  }
+
+  /* ---------- CHAPTER LABEL ---------- */
+  .chapter-heading{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin:44px 0 20px;
+  }
+  .chapter-heading:first-of-type{margin-top:0;}
+  .chapter-heading .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--brass);
+    font-size:13px;
+  }
+  .chapter-heading h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:24px;
+    margin:0;
+    color:var(--text-on-ink);
+  }
+  .chapter-heading .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-muted);
+  }
+  .chapter-desc{
+    font-size:13.5px;
+    color:var(--text-muted);
+    max-width:600px;
+    margin:-10px 0 22px;
+    line-height:1.6;
+  }
+
+  /* ---------- CARDS ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-bottom:8px;
+  }
+  .card{
+    background:var(--paper);
+    border-radius:6px;
+    padding:26px 28px;
+    position:relative;
+    box-shadow:0 1px 0 rgba(0,0,0,.2), 0 8px 24px -16px rgba(0,0,0,.5);
+    border-left:3px solid var(--brass);
+  }
+  .card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-ink-muted);
+    display:block;
+    margin-bottom:10px;
+  }
+  .card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:19px;
+    line-height:1.32;
+    color:var(--text-ink-body);
+    margin:0 0 10px;
+  }
+  .card p.body{
+    font-size:14.5px;
+    line-height:1.62;
+    color:var(--text-ink-body);
+    margin:0 0 16px;
+  }
+  .try-row{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding-top:14px;
+    border-top:1px dashed var(--paper-line);
+  }
+  .try-row .try-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--brass);
+    flex-shrink:0;
+    padding-top:1px;
+  }
+  .try-row p{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--text-ink-muted);
+  }
+
+  .margin-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-ink-muted);
+    background:none;
+    border:none;
+    cursor:pointer;
+    margin-top:16px;
+    padding:0;
+    opacity:.75;
+  }
+  .margin-toggle:hover{opacity:1; color:var(--brass);}
+  .margin-note{
+    display:none;
+    margin-top:12px;
+  }
+  .margin-note.open{display:block;}
+  .margin-note textarea{
+    width:100%;
+    min-height:60px;
+    resize:vertical;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:4px;
+    border:1px solid var(--paper-line);
+    background:#fbf6ea;
+    color:var(--text-ink-body);
+    line-height:1.5;
+  }
+  .margin-note textarea:focus{outline:2px solid var(--brass); outline-offset:1px;}
+  .margin-note .saved-hint{
+    font-size:10.5px;
+    color:var(--text-ink-muted);
+    margin-top:5px;
+    font-style:italic;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .margin-note .saved-hint.show{opacity:1;}
+
+  /* ---------- SKIM MODE ---------- */
+  .skim-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,12,15,.94);
+    backdrop-filter:blur(3px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+  }
+  .skim-overlay.active{display:flex;}
+  .skim-card-wrap{
+    max-width:560px;
+    width:100%;
+    text-align:center;
+  }
+  .skim-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass-bright);
+    margin-bottom:22px;
+  }
+  .skim-card{
+    background:var(--paper);
+    border-radius:8px;
+    padding:40px 36px;
+    text-align:left;
+    border-left:4px solid var(--brass);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+    animation:flipin .35s ease;
+  }
+  @keyframes flipin{
+    from{opacity:0; transform:translateY(10px) scale(.98);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+  .skim-card .tag{font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-ink-muted); display:block; margin-bottom:12px;}
+  .skim-card h3{font-family:'Fraunces', serif; font-weight:600; font-size:24px; line-height:1.3; color:var(--text-ink-body); margin:0 0 14px;}
+  .skim-card p.body{font-size:15.5px; line-height:1.65; color:var(--text-ink-body); margin:0 0 18px;}
+  .skim-card .try-row{border-top:1px dashed var(--paper-line); padding-top:16px;}
+
+  .skim-controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:26px;
+  }
+  .skim-controls button{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    padding:11px 18px;
+    border-radius:3px;
+    cursor:pointer;
+    border:1px solid var(--ink-line);
+    background:transparent;
+    color:var(--text-on-ink);
+    transition:all .15s ease;
+  }
+  .skim-controls button.primary{
+    background:var(--brass);
+    border-color:var(--brass);
+    color:#1a1508;
+    font-weight:500;
+  }
+  .skim-controls button:hover{border-color:var(--brass-bright);}
+  .skim-controls button.primary:hover{background:var(--brass-bright);}
+
+  footer{
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--ink-line);
+    font-size:12px;
+    color:var(--text-muted);
+    line-height:1.7;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:32px 16px 70px;}
+    header{flex-direction:column; align-items:flex-start;}
+    .skim-btn{width:100%;}
+    .card{padding:22px 20px;}
+    .skim-card{padding:30px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="eyebrow">Field notes · The Knowledge Project w/ Shane Parrish</div>
+      <h1>Naval Ravikant, <em>read like a blog</em></h1>
+      <p class="subhead">Twenty-six ideas on reading, habits, decisions, happiness and purpose — pulled from a two-hour conversation and rebuilt as a notebook you can actually skim, the way he'd want you to.</p>
+    </div>
+    <button class="skim-btn" onclick="openSkim()">✦ Skim mode</button>
+  </header>
+
+  <p class="source-note">Paraphrased and condensed from Naval Ravikant's interview on The Knowledge Project podcast. Each card ends with a small, concrete way to try the idea today — add your own note underneath if it lands.</p>
+
+  <nav class="toc" id="toc"></nav>
+
+  <div id="content"></div>
+
+  <footer>
+    Source: "The Angel Philosopher" — Naval Ravikant on The Knowledge Project with Shane Parrish.<br>
+    This notebook paraphrases ideas from that conversation for personal reflection; it isn't a transcript.
+  </footer>
+
+</div>
+
+<div class="skim-overlay" id="skimOverlay">
+  <div class="skim-card-wrap">
+    <div class="skim-eyebrow">Skimming, Naval-style — jump until something grabs you</div>
+    <div id="skimCard"></div>
+    <div class="skim-controls">
+      <button onclick="closeSkim()">Close book</button>
+      <button class="primary" onclick="nextSkim()">Skim next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    chapter: "Reading",
+    desc: "How he actually reads — daily, unfinished, unashamed.",
+    cards: [
+      { tag:"Habit", h:"Make reading a daily non-negotiable", b:"Naval credits an actual daily reading habit — even just an hour — as one of the biggest drivers of whatever success he's had, since almost nobody keeps the habit going every single day.", t:"Read for 20 minutes tomorrow morning before you check your phone." },
+      { tag:"Method", h:"Treat a book like a blog archive", b:"He skims and jumps around a book the way you'd skim a blog's back-catalog — reading closely only the parts that grab him, with zero guilt about leaving the rest unread.", t:"Pick up a book you never finished and skip straight to whichever chapter still interests you." },
+      { tag:"Depth", h:"Reread the few that hit deepest", b:"Rather than chasing every new release, he keeps circling back to a short list of favorites, since real absorption comes from repetition, not from volume.", t:"Reread one chapter of a book that changed you and notice what lands differently this time." },
+      { tag:"Investment", h:"Buy freely, finish rarely", b:"He never worried about money spent on books he didn't finish — a good book is cheap enough that even a low completion rate is still a great return on the ideas inside.", t:"Buy the book you've been 'meaning to get' — you don't owe it a full read." },
+      { tag:"Filter", h:"Drop a book the moment it lies to you", b:"If an author states something factually false, or leans on claims that can't be checked, he closes the book — he can no longer trust the reasoning built on top of it.", t:"Notice the next time a book asks you to accept an unproven claim on faith. That's your permission to put it down." },
+      { tag:"Contrarian", h:"Read outside the herd", b:"Bestsellers are often written for social approval; the ideas with real staying power tend to sit in older, less fashionable primary sources instead.", t:"Trade one popular non-fiction bestseller this month for the original thinker it keeps quoting." },
+    ]
+  },
+  {
+    chapter: "Habits",
+    desc: "What habits are for, and how to actually change one.",
+    cards: [
+      { tag:"Awareness", h:"Habits run in the background — until you check them", b:"Habits free your mind to solve new problems, but you also absorb plenty without ever choosing them, and over time they quietly harden into 'who you are.'", t:"Pick one daily habit and ask honestly: did I choose this, or did I just inherit it?" },
+      { tag:"Change", h:"You can break a habit, not just replace it", b:"He pushes back on the popular claim that habits can only be substituted — with enough deliberate effort, he's found you can fully uncondition one instead.", t:"Name one habit you assumed was permanent, and write what 'dropping it completely' would actually require." },
+      { tag:"Priority", h:"Make your top priority undeniable", b:"He rebuilt his life around physical health as priority number one — which means 'I don't have time' stopped being a valid excuse to skip it.", t:"Write down your actual number-one priority, then check whether this week's calendar agrees with you." },
+      { tag:"Signal", h:"Use one habit to checkpoint another", b:"His morning workout doubles as an early-warning system — a rough workout the next day is an honest signal that last night's choices weren't serving him.", t:"Pick one daily ritual you can use as a gut-check on how yesterday's decisions are landing today." },
+      { tag:"Motivation", h:"Big change needs a big enough reason", b:"He's found that habit change only sticks when it's attached to a genuine underlying motivator — willpower alone rarely carries it.", t:"Before starting a new habit, write one sentence on the specific reason it actually matters to you." },
+    ]
+  },
+  {
+    chapter: "Decisions",
+    desc: "Judgment as the highest-leverage skill he knows.",
+    cards: [
+      { tag:"Leverage", h:"Small edges in judgment compound enormously", b:"Someone who's right just slightly more often — with enough leverage behind their decisions — creates outsized value, which is why decision quality matters more than almost any other skill.", t:"Before your next big call, name the specific edge — however small — you actually have here." },
+      { tag:"Mindset", h:"Optimize for not screwing up", b:"Rather than chasing brilliant calls, he focuses on eliminating the ways a decision could go wrong, treating good outcomes as the natural byproduct.", t:"List three ways this decision could fail before you list why it might succeed." },
+      { tag:"Models", h:"Load mental models, not memorized facts", b:"He leans on frameworks from evolution, game theory, and complexity theory rather than specific remembered outcomes — principles transfer to new situations; facts don't.", t:"Name one mental model you already know, and apply it to a decision you've been avoiding." },
+      { tag:"System", h:"Build a system, not a bet", b:"Instead of picking a handful of 'sure things,' he prefers seeing far more opportunities so the right ones reveal themselves — then doubling down on what's working.", t:"Before narrowing your options, widen them — look at more choices than feels comfortable." },
+      { tag:"Emotion", h:"Wait out your own emotion", b:"For anything charged, he waits roughly a day before responding, letting the emotional spike pass so the actual decision underneath becomes visible.", t:"Draft the reply now. Send it tomorrow." },
+      { tag:"Trust", h:"Judge integrity by actions, not self-description", b:"The clearest signal of trustworthiness is how someone treats people who can't affect them — and people who talk up their own honesty are often worth a second look.", t:"Next time you're sizing someone up, watch how they talk about someone who isn't in the room." },
+    ]
+  },
+  {
+    chapter: "Happiness & Values",
+    desc: "What actually settles the mind — and what he refuses to compromise on.",
+    cards: [
+      { tag:"Definition", h:"Happiness is an absence, not an acquisition", b:"He defines happiness less as chasing a positive feeling and more as the state that shows up when nothing feels missing — when desire itself quiets down.", t:"Notice one moment today when you want nothing in particular. Stay there a few extra seconds." },
+      { tag:"Clarity", h:"Desire is what blocks you from seeing reality clearly", b:"The more attached you are to a specific outcome, the harder it becomes to see what's actually true — in decisions as much as in relationships.", t:"Before judging a tough situation, name what you're hoping is true — then set that hope aside and look again." },
+      { tag:"Values", h:"Decide your non-negotiables in advance", b:"He names honesty, long-term thinking, treating people as equals, and letting go of anger as values he won't compromise, whatever the short-term cost.", t:"Write down one value you will not compromise on this year, even when it's inconvenient." },
+      { tag:"Envy", h:"Jealousy dissolves under scrutiny", b:"He found envy fades once he realized you can't cherry-pick someone's success — you'd have to take their whole life, reactions and all, to actually want to be them.", t:"Next time you feel envy, ask if you'd trade your entire life for theirs — not just the one part you want." },
+      { tag:"Tradeoff", h:"Easy choices, hard life; hard choices, easy life", b:"Borrowed from his trainer — short-term sacrifice compounds into long-term ease, whether it's health, savings, or relationships.", t:"Pick the harder option today — the one your future self will actually thank you for." },
+    ]
+  },
+  {
+    chapter: "Purpose",
+    desc: "What he lands on when the question gets unavoidably big.",
+    cards: [
+      { tag:"Meaning", h:"There's no meaning to find — only one to make", b:"He argues the universe hands you no built-in purpose, so the real question isn't 'what is the meaning of life' but 'what meaning will I choose to build?'", t:"Write one sentence on what you're building meaning around this year." },
+      { tag:"Presence", h:"Living for tomorrow steals today", b:"He's wary of any belief — an afterlife, a technological utopia — that pulls attention out of the present in exchange for a promised future payoff.", t:"Notice the next time you're comforting yourself with 'someday,' and ask what you're avoiding right now." },
+      { tag:"Ego", h:"A smaller sense of self shrinks your suffering", b:"Seeing yourself as one small part of something much larger — rather than the center of the universe — removes the expectation that life owes you anything.", t:"Zoom out on today's biggest frustration until it genuinely looks small." },
+      { tag:"Scorekeeping", h:"The good life is a single-player game", b:"External validation is the default team sport most of us play, but he argues real contentment has to be practiced alone, scored against no one but yourself.", t:"Do one thing today purely because it satisfies you — with zero audience." },
+    ]
+  }
+];
+
+const romanNum = ["I","II","III","IV","V","VI"];
+
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-'); }
+
+function render(){
+  const content = document.getElementById('content');
+  const toc = document.getElementById('toc');
+  toc.innerHTML = '<button class="tab active" data-target="all" onclick="filterChapter(\'all\')">All</button>' +
+    DATA.map(ch => `<button class="tab" data-target="${slug(ch.chapter)}" onclick="filterChapter('${slug(ch.chapter)}')">${ch.chapter}</button>`).join('');
+
+  content.innerHTML = DATA.map((ch, ci) => `
+    <section class="chapter-block" data-chapter="${slug(ch.chapter)}">
+      <div class="chapter-heading">
+        <span class="num">${romanNum[ci]}</span>
+        <h2>${ch.chapter}</h2>
+        <span class="count">${ch.cards.length} notes</span>
+      </div>
+      <p class="chapter-desc">${ch.desc}</p>
+      <div class="grid">
+        ${ch.cards.map((c, i) => cardHTML(ci, i, c)).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+
+function cardHTML(ci, i, c){
+  const id = `note-${ci}-${i}`;
+  return `
+    <article class="card">
+      <span class="tag">${c.tag}</span>
+      <h3>${c.h}</h3>
+      <p class="body">${c.b}</p>
+      <div class="try-row">
+        <span class="try-label">Try</span>
+        <p>${c.t}</p>
+      </div>
+      <button class="margin-toggle" onclick="toggleNote('${id}')">✎ <span id="${id}-label">Add a margin note</span></button>
+      <div class="margin-note" id="${id}">
+        <textarea placeholder="How does this show up in your own work or day?" oninput="noteChanged('${id}')"></textarea>
+        <div class="saved-hint" id="${id}-hint">saved for this session</div>
+      </div>
+    </article>
+  `;
+}
+
+function toggleNote(id){
+  const el = document.getElementById(id);
+  const label = document.getElementById(id+'-label');
+  el.classList.toggle('open');
+  label.textContent = el.classList.contains('open') ? 'Hide note' : 'Add a margin note';
+  if(el.classList.contains('open')) el.querySelector('textarea').focus();
+}
+
+let hintTimers = {};
+function noteChanged(id){
+  const hint = document.getElementById(id+'-hint');
+  hint.classList.add('show');
+  clearTimeout(hintTimers[id]);
+  hintTimers[id] = setTimeout(()=> hint.classList.remove('show'), 1400);
+}
+
+function filterChapter(target){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.target === target));
+  document.querySelectorAll('.chapter-block').forEach(b => {
+    b.style.display = (target === 'all' || b.dataset.chapter === target) ? '' : 'none';
+  });
+}
+
+/* ---------- Skim mode ---------- */
+let flat = [];
+DATA.forEach(ch => ch.cards.forEach(c => flat.push({...c, chapter: ch.chapter})));
+let lastIdx = -1;
+
+function pickRandom(){
+  if(flat.length < 2) return 0;
+  let idx;
+  do { idx = Math.floor(Math.random() * flat.length); } while(idx === lastIdx);
+  lastIdx = idx;
+  return idx;
+}
+
+function renderSkim(){
+  const idx = pickRandom();
+  const c = flat[idx];
+  document.getElementById('skimCard').innerHTML = `
+    <div class="skim-card">
+      <span class="tag">${c.chapter} · ${c.tag}</span>
+      <h3>${c.h}</h3>
+      <p class="body">${c.b}</p>
+      <div class="try-row">
+        <span class="try-label">Try</span>
+        <p>${c.t}</p>
+      </div>
+    </div>
+  `;
+}
+
+function openSkim(){
+  renderSkim();
+  document.getElementById('skimOverlay').classList.add('active');
+}
+function closeSkim(){
+  document.getElementById('skimOverlay').classList.remove('active');
+}
+function nextSkim(){
+  renderSkim();
+}
+
+document.addEventListener('keydown', (e) => {
+  const overlay = document.getElementById('skimOverlay');
+  if(!overlay.classList.contains('active')) return;
+  if(e.key === 'Escape') closeSkim();
+  if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextSkim(); }
+});
+
+render();
+</script>
+
+</body>
+</html>
